@@ -6,6 +6,28 @@ plugin.tx_reposearch {
 	}
 	persistence {
 		storagePid = 
+		classes {
+			Tx_Reposearch_Domain_Model_Page {
+				mapping {
+					tableName = pages
+					#recordType = Tx_Reposearch_Domain_Model_Page
+					columns {
+						nav_title.mapOnProperty = navigationTitle
+						sorting.mapOnProperty = sorting
+						title.mapOnProperty = name
+					}
+				}
+			}
+			Tx_Reposearch_Domain_Model_Content {
+				mapping {
+					tableName = tt_content
+					columns {
+						header.mapOnProperty = name
+						bodytext.mapOnProperty = text
+					}
+				}
+			}
+		}
 	}
 	settings {
 #	Tx_CdgLabors_Domain_Repository_LaborRepository {
@@ -28,10 +50,15 @@ plugin.tx_reposearch {
 #			}
 #		}
 #	}
-		Tx_Assets_Domain_Repository_AssetFileRepository {
-			init = fileadmin/main/documents/CD-Modell/
-			link {
-				pageUid = 50
+#	Tx_Assets_Domain_Repository_AssetFileRepository {
+#		init = fileadmin/main/documents/CD-Modell/
+#		link {
+#			pageUid = 50
+#		}
+#	}
+		Tx_Reposearch_Domain_Repository_PageRepository {
+			persistence {
+				storagePid = 19, 27, 21
 			}
 		}
 #	Tx_Assets_Domain_Repository_AssetDirectoryAndFileRepository {

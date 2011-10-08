@@ -41,8 +41,6 @@ class Tx_Reposearch_Controller_SearchController extends Tx_Extbase_MVC_Controlle
 	public function searchAction($searchWord) {
 		//var_dump($this->settings);
 		
-		var_dump($searchWord);
-		
 		$results = array();
 		foreach ($this->settings as $repositoryName => $repositorySettings) {
 			$repository = t3lib_div::makeInstance($repositoryName, $repositorySettings['init']);

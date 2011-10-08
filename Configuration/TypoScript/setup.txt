@@ -1,0 +1,49 @@
+plugin.tx_reposearch {
+	view {
+		templateRootPath = EXT:reposearch/Resources/Private/Templates/
+		partialRootPath = EXT:reposearch/Resources/Private/Partials/
+		layoutRootPath = EXT:reposearch/Resources/Private/Layouts/
+	}
+	persistence {
+		storagePid = 
+	}
+	settings {
+#	Tx_CdgLabors_Domain_Repository_LaborRepository {
+#		persistence {
+#			storagePid = 40
+#		}
+#		settings {
+#			orderings {
+#				start = DESC
+#			}
+#		}
+#		link {
+#			pageUid = 17
+#			extensionName = CdgLabors
+#			pluginName = Labors
+#			controller = Labor
+#			action = show
+#			arguments {
+#				labor = labor
+#			}
+#		}
+#	}
+		Tx_Assets_Domain_Repository_AssetFileRepository {
+			init = fileadmin/main/documents/CD-Modell/
+			link {
+				pageUid = 50
+			}
+		}
+#	Tx_Assets_Domain_Repository_AssetDirectoryAndFileRepository {
+#		init = fileadmin/main/documents/Betrieb_CD-Labor/
+#		link {
+#			pageUid = 52
+#			action = list
+#			controller = Category
+#		}
+#	}
+	}
+}
+
+plugin.tx_reposearch._CSS_DEFAULT_STYLE (
+)

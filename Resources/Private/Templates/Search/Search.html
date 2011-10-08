@@ -1,0 +1,19 @@
+<f:layout name="Default" />
+
+<f:section name="main">
+
+	<f:for each="{results}" as="result">
+		<f:link.action 
+			pageUid="{result.settings.link.pageUid}" 
+			action="{result.settings.link.action}" 
+			controller="{result.settings.link.controller}"
+			pluginName="{result.settings.link.pluginName}"
+			extensionName="{result.settings.link.extensionName}"
+			arguments="{labor: result.object}">
+			{result.object.name}
+		</f:link.action>
+		<br />
+		
+	</f:for>
+
+</f:section>

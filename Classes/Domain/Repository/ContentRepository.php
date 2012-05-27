@@ -32,48 +32,11 @@
  * @license http://www.gnu.org/licenses/gpl.html GNU General Public License, version 3 or later
  */
  
-class Tx_Reposearch_Domain_Repository_PageRepository extends Tx_Extbase_Persistence_Repository {
+class Tx_Reposearch_Domain_Repository_ContentRepository extends Tx_Extbase_Persistence_Repository {
 
 	
 	/**
-	 * Gets a tree of pages
-	 *
-	 * @var integer $startUid
-	 * @var integer $currentUid
-	 * @return array Tree of Pages
-	 */
-	public function getTreeFromId($startUid, $currentUid = NULL) {
-		$query = $this->createQuery();
-		$constraints = array();
-		$constraints[] = $query->equals('pid', $startUid);
-		
-		if (count($constraints) > 0) {
-			$query->matching($query->logicalAnd($constraints));
-		}
-		
-		$pages = $query->execute();
-		foreach($pages as $id => $page) {
-			$subPages = $this->getTreeFromId($page->getUid(), $currentUid);
-			foreach($subPages as $subPage) {
-				$subPage->setParent($page);
-			}
-			$pages[$id]->setSubPages($subPages);
-			
-			if ($page->getUid() === $currentUid) {
-				$page->setState('current');
-				
-				$tmpPage = $page;
-				while ($parent = $tmpPage->getParent()) {
-					$parent->setState('active');
-					$tmpPage = $parent;
-				}
-			}
-		}
-		return $pages;
-	}
-	
-	/**
-	 * Gets a tree of pages
+	 * Searches for the given searchWord
 	 *
 	 * @var string $searchWord 
 	 * @return array Tree of Pages
@@ -83,18 +46,30 @@ class Tx_Reposearch_Domain_Repository_PageRepository extends Tx_Extbase_Persiste
 		$constraints = array();
 		
 		$searchWordConstraints = array();
-		$propertiesToSearch = array('name', 'navigationTitle');
+		$propertiesToSearch = array('name', 'text');
 		foreach ($propertiesToSearch as $propertyName) {
 			$searchWordConstraints[] = $query->like($propertyName, '%' . $searchWord . '%');
 		}
 		$constraints[] = $query->logicalOr($searchWordConstraints);
 		
-		$constraints[] = $query->equals('doktype', 1);
+		if (count($constraints) > 0) {
+			$query->matching($query->logicalAnd($constraints));
+		}
+		return $query->execute();
+	}
+	
+	public function findByPidAndColPos($pid, $colPos) {
+		$query = $this->createQuery();
+		$constraints = array();
+		
+		$constraints[] = $query->equals('pid', $pid);
+		$constraints[] = $query->equals('colPos', $colPos);
 		
 		if (count($constraints) > 0) {
 			$query->matching($query->logicalAnd($constraints));
 		}
 		return $query->execute();
+	
 	}
 
 }

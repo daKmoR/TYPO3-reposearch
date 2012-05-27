@@ -21,54 +21,44 @@ plugin.tx_reposearch {
 			Tx_Reposearch_Domain_Model_Content {
 				mapping {
 					tableName = tt_content
+					#recordType = Tx_Reposearch_Domain_Model_Content
 					columns {
 						header.mapOnProperty = name
 						bodytext.mapOnProperty = text
+						pid.mapOnProperty = page
+						colPos.mapOnProperty = colPos
 					}
 				}
 			}
 		}
 	}
 	settings {
-#	Tx_CdgLabors_Domain_Repository_LaborRepository {
-#		persistence {
-#			storagePid = 40
-#		}
-#		settings {
-#			orderings {
-#				start = DESC
-#			}
-#		}
-#		link {
-#			pageUid = 17
-#			extensionName = CdgLabors
-#			pluginName = Labors
-#			controller = Labor
-#			action = show
-#			arguments {
-#				labor = labor
-#			}
-#		}
-#	}
-#	Tx_Assets_Domain_Repository_AssetFileRepository {
-#		init = fileadmin/main/documents/CD-Modell/
-#		link {
-#			pageUid = 50
-#		}
-#	}
-		Tx_Reposearch_Domain_Repository_PageRepository {
+		500 = Tx_Reposearch_Domain_Repository_PageRepository 
+		500 {
 			persistence {
-				storagePid = 19, 27, 21
+				storagePid = 1
+				recursive = 100
+			}
+			link {
+				pageUid = getUid
+			}
+			groupBy = getUid
+		}
+		600 = Tx_Reposearch_Domain_Repository_ContentRepository 
+		600 {
+			persistence {
+				storagePid = 1
+				recursive = 100
+			}
+			link {
+				pageUid = getPid
+			}
+			groupBy = getPid
+			override {
+				set = setName
+				get = getPage, getName
 			}
 		}
-#	Tx_Assets_Domain_Repository_AssetDirectoryAndFileRepository {
-#		init = fileadmin/main/documents/Betrieb_CD-Labor/
-#		link {
-#			pageUid = 52
-#			action = list
-#			controller = Category
-#		}
-#	}
 	}
 }
 

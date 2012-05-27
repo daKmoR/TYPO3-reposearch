@@ -75,14 +75,9 @@ class Tx_Reposearch_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEn
 	protected $parent;
 
 	/**
-	 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_Reposearch_Domain_Model_Page> $subPages
+	 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_Reposearch_Domain_Model_Page>
 	 */
 	protected $subPages;
-	
-	/**
-	 * @var Tx_Extbase_Persistence_ObjectStorage<Tx_Reposearch_Domain_Model_Content> $contents
-	 */
-	protected $contents;
 	
 	/**
 	 * @var string $state
@@ -93,23 +88,7 @@ class Tx_Reposearch_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEn
 	 * @return void
 	 */
 	public function __construct() {
-		//Do not remove the next line: It would break the functionality
-		$this->initStorageObjects();
-	}
-
-	/**
-	 * Initializes all Tx_Extbase_Persistence_ObjectStorage properties.
-	 *
-	 * @return void
-	 */
-	protected function initStorageObjects() {
-		/**
-		* Do not modify this method!
-		* It will be rewritten on each save in the kickstarter
-		* You may modify the constructor of this class instead
-		*/
 		$this->subPages = new Tx_Extbase_Persistence_ObjectStorage();
-		$this->contents = new Tx_Extbase_Persistence_ObjectStorage();
 	}
 
 	/**
@@ -144,37 +123,6 @@ class Tx_Reposearch_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEn
 	}
 
 	/**
-	 * @param Tx_Reposearch_Domain_Model_Content $content
-	 * @return void
-	 */
-	public function addContent(Tx_Reposearch_Domain_Model_Content $content) {
-		$this->contents->attach($contents);
-	}
-
-	/**
-	 * @param Tx_Reposearch_Domain_Model_Content $contentToRemove The Contents to be removed
-	 * @return void
-	 */
-	public function removeContent(Tx_Reposearch_Domain_Model_Content $contentToRemove) {
-		$this->contents->detach($contentToRemove);
-	}
-
-	/**
-	 * @return Tx_Extbase_Persistence_ObjectStorage<Tx_Reposearch_Domain_Model_Content> $contents
-	 */
-	public function getContents() {
-		return $this->contents;
-	}
-
-	/**
-	 * @param Tx_Extbase_Persistence_ObjectStorage<Tx_Reposearch_Domain_Model_Content> $contents
-	 * @return void
-	 */
-	public function setContents($contents) {
-		$this->contents = $contents;
-	}	
-
-	/**
 	 * @param string $name name
 	 * @return void
 	 */
@@ -188,6 +136,13 @@ class Tx_Reposearch_Domain_Model_Page extends Tx_Extbase_DomainObject_AbstractEn
 	public function getName() {
 		return $this->name;
 	}
+	
+	/**
+	 * @return string name
+	 */
+	public function getText() {
+		return $this->name;
+	}	
 
 	/**
 	 * Setter for navigationTitle

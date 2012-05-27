@@ -1,19 +1,45 @@
+{namespace s=Tx_Reposearch_ViewHelpers}
+{namespace cdg=Tx_CdgLabors_ViewHelpers}
+
 <f:layout name="Default" />
 
 <f:section name="main">
 
+	<h1>Suche <span>({results -> f:count()})</span></h1>
+
 	<f:for each="{results}" as="result">
-		<f:link.action 
-			pageUid="{result.settings.link.pageUid}" 
-			action="{result.settings.link.action}" 
-			controller="{result.settings.link.controller}"
-			pluginName="{result.settings.link.pluginName}"
-			extensionName="{result.settings.link.extensionName}"
-			arguments="{labor: result.object}">
-			{result.object.name}
-		</f:link.action>
-		<br />
-		
+		<div class="result">
+			<f:if condition="{result.settings.link.arguments.labor}">
+				<f:then>
+					<![CDATA[ <!-- Labors --> ]]>
+					<h3><f:link.action pageUid="{result.settings.link.pageUid}" action="{result.settings.link.action}" controller="{result.settings.link.controller}"	pluginName="{result.settings.link.pluginName}" extensionName="{result.settings.link.extensionName}"	arguments="{labor: result.object}">{result.object.name}</f:link.action></h3>
+					<p>{result.object.text -> cdg:textFix() -> s:format.highlightCrop(highlightString: searchWord, maxCharacters: 200, respectHtml: 'false')}</p>
+				</f:then>
+				<f:else>
+					<f:if condition="{result.settings.link.arguments.action}">
+						<f:then>
+							<![CDATA[ <!-- with action --> ]]>
+							<h3><f:link.action pageUid="{result.settings.link.pageUid}" action="{result.settings.link.action}" controller="{result.settings.link.controller}" pluginName="{result.settings.link.pluginName}" extensionName="{result.settings.link.extensionName}">{result.object.name}</f:link.action></h3>
+							<p>{result.object.text -> f:format.stripTags() -> s:format.highlightCrop(highlightString: searchWord, maxCharacters: 200)}</p>
+						</f:then>
+						<f:else>
+							<![CDATA[ <!-- default --> ]]>
+							<h3><f:link.action pageUid="{result.settings.link.pageUid}">{result.object.name}</f:link.action></h3>
+							<p>{result.object.text -> f:format.stripTags() -> s:format.highlightCrop(highlightString: searchWord, maxCharacters: 200)}</p>
+						</f:else>
+					</f:if>
+				</f:else>
+			</f:if>
+			
+		</div>
 	</f:for>
+	
+	<f:if condition="{results}">
+		<f:then>
+		</f:then>
+		<f:else>
+			<p>Keine Ergebnisse</p>
+		</f:else>
+	</f:if>
 
 </f:section>

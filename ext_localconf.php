@@ -12,8 +12,7 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 	),
 	// non-cacheable actions
 	array(
-		'Search' => 'create, update, delete',
-		
+		'Search' => 'search, create, update, delete',
 	)
 );
 

@@ -7,13 +7,10 @@ Tx_Extbase_Utility_Extension::configurePlugin(
 	$_EXTKEY,
 	'Repositorysearch',
 	array(
-		'Search' => 'search, list, show, new, create, edit, update, delete',
-		
+		'Search' => 'form, search',
 	),
 	// non-cacheable actions
 	array(
-		'Search' => 'search, create, update, delete',
+		'Search' => 'form, search',
 	)
 );
-
-?>

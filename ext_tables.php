@@ -14,5 +14,3 @@ Tx_Extbase_Utility_Extension::registerPlugin(
 //t3lib_extMgm::addPiFlexFormValue($pluginSignature, 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_' .repositorysearch. '.xml');
 
 t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Repository Search');
-
-?>

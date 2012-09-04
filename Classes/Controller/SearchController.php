@@ -1,28 +1,17 @@
 <?php
 
-/***************************************************************
- *  Copyright notice
- *
- *  (c) 2011 Thomas Allmer <at@delusionworld.com>, WEBTEAM GmbH
- *  
- *  All rights reserved
- *
- *  This script is part of the TYPO3 project. The TYPO3 project is
- *  free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  The GNU General Public License can be found at
- *  http://www.gnu.org/copyleft/gpl.html.
- *
- *  This script is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  This copyright notice MUST APPEAR in all copies of the script!
- ***************************************************************/
+/*                                                                        *
+ * This script is part of the TYPO3 project - inspiring people to share!  *
+ *                                                                        *
+ * TYPO3 is free software; you can redistribute it and/or modify it under *
+ * the terms of the GNU General Public License version 2 as published by  *
+ * the Free Software Foundation.                                          *
+ *                                                                        *
+ * This script is distributed in the hope that it will be useful, but     *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHAN-    *
+ * TABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General      *
+ * Public License for more details.                                       *
+ *                                                                        */
 
 
 /**
@@ -54,20 +43,27 @@ class Tx_Reposearch_Controller_SearchController extends Tx_Extbase_MVC_Controlle
 	}
 
 	/**
+	 *
+	 */
+	public	function formAction() {
+
+	}
+
+	/**
 	 * @param string $searchWord the Word to search for
 	 * @return void
 	 */
 	public function searchAction($searchWord) {
 		$this->settings = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
 		ksort($this->settings);
-		
+
 		$results = array();
 		foreach ($this->settings as $repositoryName => $repositorySettings) {
 			$repositoryName = $repositorySettings['_typoScriptNodeValue'];
 			$repository = t3lib_div::makeInstance($repositoryName, $repositorySettings['init'], $repositorySettings['settings']);
 			if (method_exists($repository, 'setDefaultQuerySettings')) {
 				$querySettings = t3lib_div::makeInstance('Tx_Extbase_Persistence_Typo3QuerySettings');
-				
+
 				// copied from Tx_Extbase_Configuration_FrontendConfigurationManager
 				$pages = $repositorySettings['persistence']['storagePid'];
 				$list = array();
@@ -81,7 +77,7 @@ class Tx_Reposearch_Controller_SearchController extends Tx_Extbase_MVC_Controlle
 					$pages = $pages . ',' . implode(',', $list);
 				}
 				// copy end :p
-				
+
 				$querySettings->setStoragePageIds(t3lib_div::intExplode(',', $pages));
 				$repository->setDefaultQuerySettings($querySettings);
 			}
@@ -92,7 +88,7 @@ class Tx_Reposearch_Controller_SearchController extends Tx_Extbase_MVC_Controlle
 					$currentRepositorySettings['link']['pageUid'] = $repositoryResult->$repositorySettings['link']['pageUid']();
 				}
 				$resultId = $repositorySettings['groupBy'] ? $repositoryResult->$repositorySettings['groupBy']() : NULL;
-				
+
 				if ($repositorySettings['override']['set'] && $repositorySettings['override']['get']) {
 					$repositoryResult = clone $repositoryResult;
 					$getOverride = t3lib_div::trimExplode(',', $repositorySettings['override']['get']);
@@ -102,7 +98,7 @@ class Tx_Reposearch_Controller_SearchController extends Tx_Extbase_MVC_Controlle
 					}
 					$repositoryResult->$repositorySettings['override']['set']($overrideValue);
 				}
-				
+
 				if ($resultId === NULL) {
 					$results[] = array('settings' => $currentRepositorySettings, 'object' => $repositoryResult);
 				} else {
@@ -110,10 +106,9 @@ class Tx_Reposearch_Controller_SearchController extends Tx_Extbase_MVC_Controlle
 				}
 			}
 		}
-		
+
 		$this->view->assign('results', $results);
 		$this->view->assign('searchWord', $searchWord);
 	}
 
 }
-?>

@@ -4,39 +4,17 @@ plugin.tx_reposearch {
 		partialRootPath = EXT:reposearch/Resources/Private/Partials/
 		layoutRootPath = EXT:reposearch/Resources/Private/Layouts/
 	}
-	persistence {
-		storagePid = 
-		classes {
-			Tx_Reposearch_Domain_Model_Page {
-				mapping {
-					tableName = pages
-					#recordType = Tx_Reposearch_Domain_Model_Page
-					columns {
-						nav_title.mapOnProperty = navigationTitle
-						sorting.mapOnProperty = sorting
-						title.mapOnProperty = name
-					}
-				}
-			}
-			Tx_Reposearch_Domain_Model_Content {
-				mapping {
-					tableName = tt_content
-					#recordType = Tx_Reposearch_Domain_Model_Content
-					columns {
-						header.mapOnProperty = name
-						bodytext.mapOnProperty = text
-						pid.mapOnProperty = page
-						colPos.mapOnProperty = colPos
-					}
-				}
-			}
-		}
-	}
 	settings {
-		500 = Tx_Reposearch_Domain_Repository_PageRepository 
+		500 = Tx_Fluidce_Domain_Repository_PageRepository
 		500 {
+			init {
+				# init settings for the repository
+				settings {
+					# "normal" settings for the repository
+				}
+			}
 			persistence {
-				storagePid = 1
+				storagePid = 0,1
 				recursive = 100
 			}
 			link {
@@ -44,23 +22,5 @@ plugin.tx_reposearch {
 			}
 			groupBy = getUid
 		}
-		600 = Tx_Reposearch_Domain_Repository_ContentRepository 
-		600 {
-			persistence {
-				storagePid = 1
-				recursive = 100
-			}
-			link {
-				pageUid = getPid
-			}
-			groupBy = getPid
-			override {
-				set = setName
-				get = getPage, getName
-			}
-		}
 	}
 }
-
-plugin.tx_reposearch._CSS_DEFAULT_STYLE (
-)

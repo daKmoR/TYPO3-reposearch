@@ -5,7 +5,7 @@ plugin.tx_reposearch {
 		layoutRootPath = EXT:reposearch/Resources/Private/Layouts/
 	}
 	settings {
-		500 = Tx_Fluidce_Domain_Repository_PageRepository
+		500 = TYPO3\Reposearch\Domain\Repository\PageRepository
 		500 {
 			init {
 				# init settings for the repository
@@ -21,6 +21,42 @@ plugin.tx_reposearch {
 				pageUid = getUid
 			}
 			groupBy = getUid
+		}
+	}
+	persistence {
+		updateReferenceIndex = 0
+		storagePid =
+	}
+	features {
+		#rewrittenPropertyMapper = 1
+	}
+}
+
+config.tx_extbase {
+	persistence {
+		classes {
+			TYPO3\Reposearch\Domain\Model\Page {
+				mapping {
+					tableName = pages
+					columns {
+						pid.mapOnProperty = parent
+						nav_title.mapOnProperty = navigationTitle
+						nav_hide.mapOnProperty = hideInMenu
+						title.mapOnProperty = name
+						sorting.mapOnProperty = sorting
+					}
+				}
+			}
+			TYPO3\Reposearch\Domain\Model\Content {
+				mapping {
+					tableName = tt_content
+					columns {
+						header.mapOnProperty = name
+						pid.mapOnProperty = page
+						colPos.mapOnProperty = colPos
+					}
+				}
+			}
 		}
 	}
 }

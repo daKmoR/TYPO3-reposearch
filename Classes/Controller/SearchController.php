@@ -1,4 +1,5 @@
 <?php
+namespace TYPO3\Reposearch\Controller;
 
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
@@ -21,32 +22,38 @@
  * @license http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3 or later
  *
  */
-class Tx_Reposearch_Controller_SearchController extends Tx_Extbase_MVC_Controller_ActionController {
+class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController {
 
 	/**
-	 * @var	tslib_cObj
+	 * @var	\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
 	 */
 	protected $contentObject;
 
 	/**
-	 * @var Tx_Extbase_Configuration_ConfigurationManagerInterface
+	 * @var \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface
 	 */
 	protected $configurationManager;
 
 	/**
-	 * @param Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager
+	 * @param \TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager
 	 * @return void
 	 */
-	public function injectConfigurationManager(Tx_Extbase_Configuration_ConfigurationManagerInterface $configurationManager) {
+	public function injectConfigurationManager(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface $configurationManager) {
 		$this->configurationManager = $configurationManager;
 		$this->contentObject = $this->configurationManager->getContentObject();
 	}
 
 	/**
+	 * @var \TYPO3\CMS\Extbase\Object\ObjectManagerInterface
+	 * @inject
+	 */
+	protected $objectManager;
+
+	/**
 	 *
 	 */
-	public	function formAction() {
-
+	public function formAction() {
+		// nothing to do here :p
 	}
 
 	/**
@@ -54,21 +61,24 @@ class Tx_Reposearch_Controller_SearchController extends Tx_Extbase_MVC_Controlle
 	 * @return void
 	 */
 	public function searchAction($searchWord) {
-		$this->settings = $this->configurationManager->getConfiguration(Tx_Extbase_Configuration_ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
+		$this->settings = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
 		ksort($this->settings);
 
 		$results = array();
 		foreach ($this->settings as $repositoryName => $repositorySettings) {
 			$repositoryName = $repositorySettings['_typoScriptNodeValue'];
-			$repository = t3lib_div::makeInstance($repositoryName, $repositorySettings['init'], $repositorySettings['settings']);
+
+			//$repository = t3lib_div::makeInstance($repositoryName, $repositorySettings['init'], $repositorySettings['settings']);
+			$repository = $this->objectManager->get($repositoryName);
+
 			if (method_exists($repository, 'setDefaultQuerySettings')) {
-				$querySettings = t3lib_div::makeInstance('Tx_Extbase_Persistence_Typo3QuerySettings');
+				$querySettings = $this->objectManager->get('TYPO3\\CMS\\Extbase\\Persistence\\Generic\\Typo3QuerySettings');
 
 				// copied from Tx_Extbase_Configuration_FrontendConfigurationManager
 				$pages = $repositorySettings['persistence']['storagePid'];
 				$list = array();
 				if($repositorySettings['persistence']['recursive'] > 0) {
-					$explodedPages = t3lib_div::trimExplode(',', $pages);
+					$explodedPages = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $pages);
 					foreach($explodedPages as $pid) {
 						$list[] = trim($this->contentObject->getTreeList($pid, $repositorySettings['persistence']['recursive']), ',');
 					}
@@ -78,9 +88,10 @@ class Tx_Reposearch_Controller_SearchController extends Tx_Extbase_MVC_Controlle
 				}
 				// copy end :p
 
-				$querySettings->setStoragePageIds(t3lib_div::intExplode(',', $pages));
+				$querySettings->setStoragePageIds(\TYPO3\CMS\Core\Utility\GeneralUtility::intExplode(',', $pages));
 				$repository->setDefaultQuerySettings($querySettings);
 			}
+
 			$repositoryResults = $repository->findSearchWord($searchWord);
 			foreach($repositoryResults as $repositoryResult) {
 				$currentRepositorySettings = $repositorySettings;
@@ -91,7 +102,7 @@ class Tx_Reposearch_Controller_SearchController extends Tx_Extbase_MVC_Controlle
 
 				if ($repositorySettings['override']['set'] && $repositorySettings['override']['get']) {
 					$repositoryResult = clone $repositoryResult;
-					$getOverride = t3lib_div::trimExplode(',', $repositorySettings['override']['get']);
+					$getOverride = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $repositorySettings['override']['get']);
 					$overrideValue = $repositoryResult;
 					foreach($getOverride as $functionName) {
 						$overrideValue = $overrideValue->$functionName();

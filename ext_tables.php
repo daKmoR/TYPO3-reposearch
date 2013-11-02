@@ -3,7 +3,7 @@ if (!defined('TYPO3_MODE')) {
 	die ('Access denied.');
 }
 
-Tx_Extbase_Utility_Extension::registerPlugin(
+\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
 	$_EXTKEY,
 	'Repositorysearch',
 	'Repository Search'
@@ -13,4 +13,24 @@ Tx_Extbase_Utility_Extension::registerPlugin(
 //$TCA['tt_content']['types']['list']['subtypes_addlist'][$pluginSignature] = 'pi_flexform';
 //t3lib_extMgm::addPiFlexFormValue($pluginSignature, 'FILE:EXT:' . $_EXTKEY . '/Configuration/FlexForms/flexform_' .repositorysearch. '.xml');
 
-t3lib_extMgm::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Repository Search');
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'Repository Search');
+
+$TCA['pages']['columns']['contents'] = array(
+	'exclude' => 0,
+	'label' => 'Contents',
+	'config' => array(
+		'type' => 'inline',
+		'foreign_table' => 'tt_content',
+		'foreign_field' => 'pid'
+	),
+);
+
+$TCA['pages']['columns']['children'] = array(
+	'exclude' => 0,
+	'label' => 'Children',
+	'config' => array(
+		'type' => 'inline',
+		'foreign_table' => 'pages',
+		'foreign_field' => 'pid'
+	),
+);

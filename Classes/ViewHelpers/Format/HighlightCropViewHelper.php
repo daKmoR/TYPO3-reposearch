@@ -1,4 +1,5 @@
 <?php
+namespace TYPO3\Reposearch\ViewHelpers\Format;
 
 /*                                                                        *
  * This script is part of the TYPO3 project - inspiring people to share!  *
@@ -17,7 +18,7 @@
  */
 
 /**
- * Use this view helper to crop and hightlight the text between its opening and closing tags. See also
+ * Use this view helper to crop and highlight the text between its opening and closing tags. See also
  * Examples from Tx_Fluid_ViewHelpers_Format_CropViewHelper
  *
  * = Examples =
@@ -31,7 +32,7 @@
  *
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License, version 2
  */
-class Tx_Reposearch_ViewHelpers_Format_HighlightCropViewHelper extends Tx_Fluid_ViewHelpers_Format_CropViewHelper {
+class HighlightCropViewHelper extends \TYPO3\CMS\Fluid\ViewHelpers\Format\CropViewHelper {
 
 	/**
 	 * Renders the cropped text and highlights the given value

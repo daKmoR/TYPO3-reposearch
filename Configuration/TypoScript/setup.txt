@@ -5,22 +5,25 @@ plugin.tx_reposearch {
 		layoutRootPath = EXT:reposearch/Resources/Private/Layouts/
 	}
 	settings {
-		500 = TYPO3\Reposearch\Domain\Repository\PageRepository
-		500 {
-			init {
-				# init settings for the repository
-				settings {
-					# "normal" settings for the repository
+		highlightCrop.maxCharacters = 100
+		repositories {
+			500 = TYPO3\Reposearch\Domain\Repository\PageRepository
+			500 {
+				init {
+					# init settings for the repository
+					settings {
+						# "normal" settings for the repository
+					}
 				}
+				persistence {
+					storagePid = 0,1
+					recursive = 100
+				}
+				link {
+					pageUid = getUid
+				}
+				groupBy = getUid
 			}
-			persistence {
-				storagePid = 0,1
-				recursive = 100
-			}
-			link {
-				pageUid = getUid
-			}
-			groupBy = getUid
 		}
 	}
 	persistence {
@@ -54,6 +57,7 @@ config.tx_extbase {
 						header.mapOnProperty = name
 						pid.mapOnProperty = page
 						colPos.mapOnProperty = colPos
+						bodytext.mapOnProperty = text
 					}
 				}
 			}

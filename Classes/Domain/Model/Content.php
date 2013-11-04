@@ -44,6 +44,11 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	protected $colPos;
 
 	/**
+	 * @var string
+	 */
+	protected $text;
+
+	/**
 	 * @return string $name
 	 */
 	public function getName() {
@@ -86,6 +91,21 @@ class Content extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity {
 	 */
 	public function setPage(\TYPO3\Reposearch\Domain\Model\Page $page) {
 		$this->page = $page;
+	}
+
+	/**
+	 * @return string $text
+	 */
+	public function getText() {
+		return $this->text;
+	}
+
+	/**
+	 * @param string $text
+	 * @return void
+	 */
+	public function setText($text) {
+		$this->text = $text;
 	}
 
 	/**

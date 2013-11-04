@@ -33,7 +33,7 @@ class PageRepository extends \TYPO3\CMS\Extbase\Persistence\Repository {
 		$constraints = array();
 
 		$searchWordConstraints = array();
-		$propertiesToSearch = array('name', 'navigationTitle', 'contents.bodytext', 'contents.header');
+		$propertiesToSearch = array('name', 'navigationTitle', 'contents.text', 'contents.header');
 		foreach ($propertiesToSearch as $propertyName) {
 			$searchWordConstraints[] = $query->like($propertyName, '%' . $searchWord . '%');
 		}

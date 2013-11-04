@@ -62,10 +62,10 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 	 */
 	public function searchAction($searchWord) {
 		$this->settings = $this->configurationManager->getConfiguration(\TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS);
-		ksort($this->settings);
+		ksort($this->settings['repositories']);
 
 		$results = array();
-		foreach ($this->settings as $repositoryName => $repositorySettings) {
+		foreach ($this->settings['repositories'] as $repositoryName => $repositorySettings) {
 			$repositoryName = $repositorySettings['_typoScriptNodeValue'];
 
 			//$repository = t3lib_div::makeInstance($repositoryName, $repositorySettings['init'], $repositorySettings['settings']);
@@ -93,6 +93,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			}
 
 			$repositoryResults = $repository->findSearchWord($searchWord);
+
 			foreach($repositoryResults as $repositoryResult) {
 				$currentRepositorySettings = $repositorySettings;
 				if (!is_numeric($repositorySettings['link']['pageUid'])) {
@@ -118,6 +119,7 @@ class SearchController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControlle
 			}
 		}
 
+		$this->view->assign('settings', $this->settings);
 		$this->view->assign('results', $results);
 		$this->view->assign('searchWord', $searchWord);
 	}

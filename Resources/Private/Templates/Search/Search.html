@@ -4,7 +4,7 @@
 
 <f:section name="main">
 
-	<h1>Suche <span>({results -> f:count()})</span></h1>
+	<h1>Suchergebnisse für "<strong>{searchWord}</strong>" <span>({results -> f:count()})</span></h1>
 
 	<f:if condition="{results}">
 		<f:then>
@@ -13,13 +13,21 @@
 					<f:if condition="{result.settings.link.arguments.action}">
 						<f:then>
 							<![CDATA[ <!-- with action --> ]]>
-							<h3><f:link.action pageUid="{result.settings.link.pageUid}" action="{result.settings.link.action}" controller="{result.settings.link.controller}" pluginName="{result.settings.link.pluginName}" extensionName="{result.settings.link.extensionName}">{result.object.name}</f:link.action></h3>
-							<p>{result.object.text -> f:format.stripTags() -> s:format.highlightCrop(highlightString: searchWord, maxCharacters: 100)}</p>
+							<h3>
+								<f:link.action pageUid="{result.settings.link.pageUid}" action="{result.settings.link.action}" controller="{result.settings.link.controller}" pluginName="{result.settings.link.pluginName}" extensionName="{result.settings.link.extensionName}">
+									{result.object.name -> f:format.raw()}
+								</f:link.action>
+							</h3>
+							<p>{result.object.text -> f:format.stripTags() -> s:format.highlightCrop(highlightString: searchWord, maxCharacters: settings.highlightCrop.maxCharacters)}</p>
 						</f:then>
 						<f:else>
 							<![CDATA[ <!-- default --> ]]>
-							<h3><f:link.action pageUid="{result.settings.link.pageUid}">{result.object.name}</f:link.action></h3>
-							<p>{result.object.text -> f:format.stripTags() -> s:format.highlightCrop(highlightString: searchWord, maxCharacters: 100)}</p>
+							<h3>
+								<f:link.action pageUid="{result.settings.link.pageUid}">
+									{result.object.name -> f:format.raw()}
+								</f:link.action>
+							</h3>
+							<p>{result.object.text -> f:format.stripTags() -> s:format.highlightCrop(highlightString: searchWord, maxCharacters: settings.highlightCrop.maxCharacters)}</p>
 						</f:else>
 					</f:if>
 

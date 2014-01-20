@@ -4,7 +4,7 @@
 
 <f:section name="main">
 
-	<h1>Suchergebnisse für "<strong>{searchWord}</strong>" <span>({results -> f:count()})</span></h1>
+	<h1><f:translate key="reposearch.search.results" /> "<strong>{searchWord}</strong>" <span>({results -> f:count()})</span></h1>
 
 	<f:if condition="{results}">
 		<f:then>
@@ -35,7 +35,7 @@
 			</f:for>
 		</f:then>
 		<f:else>
-			<p>Keine Ergebnisse</p>
+			<p><f:translate key="reposearch.search.noResults" /></p>
 		</f:else>
 	</f:if>
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2013-01-16T12:36:02Z" product-name="tx_reposearch">
+		<header/>
+		<body>
+
+			<trans-unit id="tx_reposearch_domain_model_search">
+				<source>Search</source>
+			</trans-unit>
+			<trans-unit id="reposearch.search.go">
+				<source>search</source>
+			</trans-unit>
+			<trans-unit id="reposearch.search.new">
+				<source>New Search</source>
+			</trans-unit>
+			<trans-unit id="reposearch.search.results">
+				<source>Search Results for</source>
+			</trans-unit>
+			<trans-unit id="reposearch.search.noResults">
+				<source>No Search Results</source>
+			</trans-unit>
+
+		</body>
+	</file>
+</xliff>
